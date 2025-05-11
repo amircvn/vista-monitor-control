@@ -1,0 +1,139 @@
+
+[
+  {
+    "id": "user1",
+    "text": "User 1",
+    "checked": true,
+    "children": [
+      {
+        "id": "user1-salary",
+        "text": "Salary1",
+        "checked": true
+      },
+      {
+        "id": "user1-dept",
+        "text": "Department1",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user2",
+    "text": "User 2",
+    "checked": true,
+    "children": [
+      {
+        "id": "user2-salary",
+        "text": "Salary2",
+        "checked": false
+      },
+      {
+        "id": "user2-dept",
+        "text": "Department2",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user3",
+    "text": "User 3",
+    "checked": true,
+    "children": [
+      {
+        "id": "user3-salary",
+        "text": "Salary3",
+        "checked": true
+      },
+      {
+        "id": "user3-dept",
+        "text": "Department3",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user4",
+    "text": "User 4",
+    "checked": true,
+    "children": [
+      {
+        "id": "user4-salary",
+        "text": "Salary4",
+        "checked": true
+      },
+      {
+        "id": "user4-dept",
+        "text": "Department4",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user5",
+    "text": "User 5",
+    "checked": true,
+    "children": [
+      {
+        "id": "user5-salary",
+        "text": "Salary5",
+        "checked": true
+      },
+      {
+        "id": "user5-dept",
+        "text": "Department5",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user6",
+    "text": "User 6",
+    "checked": true,
+    "children": [
+      {
+        "id": "user6-salary",
+        "text": "Salary6",
+        "checked": true
+      },
+      {
+        "id": "user6-dept",
+        "text": "Department6",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user7",
+    "text": "User 7",
+    "checked": true,
+    "children": [
+      {
+        "id": "user7-salary",
+        "text": "Salary7",
+        "checked": true
+      },
+      {
+        "id": "user7-dept",
+        "text": "Department7",
+        "checked": false
+      }
+    ]
+  },
+  {
+    "id": "user8",
+    "text": "User 8",
+    "checked": true,
+    "children": [
+      {
+        "id": "user8-salary",
+        "text": "Salary8",
+        "checked": true
+      },
+      {
+        "id": "user8-dept",
+        "text": "Department8",
+        "checked": false
+      }
+    ]
+  }
+]
