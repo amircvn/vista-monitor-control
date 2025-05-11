@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import WebRTCViewer from "./WebRTCViewer";
 import { useState } from "react";
-import { Start, Stop } from "lucide-react";
+import { PlayCircle, StopCircle } from "lucide-react";
 
 const CameraPage = () => {
   const { exposureTime, cameraGain, addConsoleMessage } = useBackend();
@@ -98,7 +98,7 @@ const CameraPage = () => {
                 onClick={handleStartStream}
                 disabled={isStreamActive}
               >
-                <Start className="w-4 h-4 mr-2" />
+                <PlayCircle className="w-4 h-4 mr-2" />
                 Start
               </Button>
               <Button 
@@ -106,7 +106,7 @@ const CameraPage = () => {
                 onClick={handleStopStream}
                 disabled={!isStreamActive}
               >
-                <Stop className="w-4 h-4 mr-2" />
+                <StopCircle className="w-4 h-4 mr-2" />
                 Stop
               </Button>
               <Button 

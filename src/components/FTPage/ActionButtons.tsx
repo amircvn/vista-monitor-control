@@ -1,7 +1,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useBackend } from "@/contexts/BackendContext";
-import { Start, Stop } from "lucide-react";
+import { PlayCircle, StopCircle } from "lucide-react";
 
 const ActionButtons = () => {
   const { addConsoleMessage } = useBackend();
@@ -16,14 +16,14 @@ const ActionButtons = () => {
         className="w-full bg-green-600 hover:bg-green-700" 
         onClick={() => handleClick("Start")}
       >
-        <Start className="w-4 h-4 mr-2" />
+        <PlayCircle className="w-4 h-4 mr-2" />
         Start
       </Button>
       <Button 
         className="w-full bg-red-600 hover:bg-red-700" 
         onClick={() => handleClick("Stop")}
       >
-        <Stop className="w-4 h-4 mr-2" />
+        <StopCircle className="w-4 h-4 mr-2" />
         Stop
       </Button>
       <Button 
