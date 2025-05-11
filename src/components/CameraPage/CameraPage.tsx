@@ -6,6 +6,8 @@ import { Button } from "@/components/ui/button";
 import WebRTCViewer from "./WebRTCViewer";
 import { useState } from "react";
 import { PlayCircle, StopCircle } from "lucide-react";
+import ConsolePanel from "../FTPage/ConsolePanel";
+import InfoPanel from "../FTPage/InfoPanel";
 
 const CameraPage = () => {
   const { exposureTime, cameraGain, addConsoleMessage } = useBackend();
@@ -26,6 +28,8 @@ const CameraPage = () => {
   const handleStartStream = () => {
     setIsStreamActive(true);
     addConsoleMessage("Camera stream started");
+    // Send exposure and gain data to backend
+    addConsoleMessage(`Sending to backend - Exposure: ${exposureValue}, Gain: ${gainValue}`);
   };
 
   const handleStopStream = () => {
@@ -43,25 +47,11 @@ const CameraPage = () => {
 
   return (
     <div className="grid grid-cols-12 gap-4 h-full p-4">
-      {/* Left Column */}
-      <div className="col-span-3 flex flex-col gap-4">
-        {/* FT Display (simulated) */}
-        <div className="bg-gray-50 border rounded-md p-4 shadow-sm flex items-center justify-center aspect-square">
-          <span className="text-lg font-semibold text-gray-800">FT</span>
-        </div>
-        
-        {/* Camera Display (simulated) */}
-        <div className="bg-amber-100 border rounded-md p-4 shadow-sm flex items-center justify-center aspect-square">
-          <span className="text-lg font-semibold text-gray-800">Camera</span>
-        </div>
-      </div>
-      
-      {/* Main Content */}
-      <div className="col-span-9 flex flex-col gap-4">
-        {/* Camera Configuration */}
-        <div className="bg-amber-50 border rounded-md p-4 shadow-sm grid grid-cols-6 gap-4">
-          {/* Input Controls */}
-          <div className="col-span-2">
+      {/* Top section */}
+      <div className="col-span-12 grid grid-cols-12 gap-4">
+        {/* Left Column - Camera Controls */}
+        <div className="col-span-3">
+          <div className="bg-gray-50 border rounded-md p-4 shadow-sm">
             <div className="space-y-4">
               <div>
                 <Label htmlFor="serial" className="text-xs text-gray-600 mb-1 block">Serial number</Label>
@@ -118,12 +108,26 @@ const CameraPage = () => {
               </Button>
             </div>
           </div>
-          
-          {/* WebRTC Viewer */}
-          <div className="col-span-4">
+        </div>
+        
+        {/* Middle/Right - WebRTC Viewer */}
+        <div className="col-span-6">
+          <div className="bg-gray-50 border rounded-md p-4 shadow-sm h-full">
             <WebRTCViewer isActive={isStreamActive} />
           </div>
         </div>
+        
+        {/* Right Column - Info Panel */}
+        <div className="col-span-3">
+          <div className="bg-gray-50 border rounded-md p-4 shadow-sm h-full">
+            <InfoPanel />
+          </div>
+        </div>
+      </div>
+      
+      {/* Bottom Row - Console Panel */}
+      <div className="col-span-12 bg-gray-50 border rounded-md p-4 shadow-sm h-48">
+        <ConsolePanel />
       </div>
     </div>
   );

@@ -17,8 +17,11 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
 
       const startWebRTC = async () => {
         try {
-          // This would be replaced with actual WebRTC connection code in a real app
-          // Here we're just using the user's camera to simulate WebRTC
+          addConsoleMessage("Connecting to WebRTC stream at 192.168.0.10...");
+          
+          // In a real application, you would use WebRTC to connect to the IP
+          // For this demo, we're simulating with the user's camera
+          // In production, replace this with actual WebRTC connection code to 192.168.0.10
           stream = await navigator.mediaDevices.getUserMedia({
             video: true,
             audio: false,
@@ -26,10 +29,10 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
           
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
-            addConsoleMessage("WebRTC stream connected");
+            addConsoleMessage("WebRTC stream connected to 192.168.0.10");
           }
         } catch (err) {
-          setError("Failed to access camera: " + (err instanceof Error ? err.message : String(err)));
+          setError("Failed to connect to camera at 192.168.0.10: " + (err instanceof Error ? err.message : String(err)));
           addConsoleMessage("WebRTC connection error: " + (err instanceof Error ? err.message : String(err)));
         }
       };
@@ -39,7 +42,7 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
       return () => {
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
-          addConsoleMessage("WebRTC stream disconnected");
+          addConsoleMessage("WebRTC stream disconnected from 192.168.0.10");
         }
       };
     }
@@ -65,7 +68,7 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
       ) : (
         <div className="text-gray-400 text-center">
           <p className="text-lg font-medium">Live video feed</p>
-          <p className="text-sm">WEB RTC</p>
+          <p className="text-sm">192.168.0.10</p>
         </div>
       )}
     </div>

@@ -5,6 +5,7 @@ import InputBoxes from "./InputBoxes";
 import ActionButtons from "./ActionButtons";
 import NestedChecklist from "./NestedChecklist";
 import ConsolePanel from "./ConsolePanel";
+import InfoPanel from "./InfoPanel";
 
 const FTPage = () => {
   const { addConsoleMessage } = useBackend();
@@ -35,8 +36,13 @@ const FTPage = () => {
         <NestedChecklist />
       </div>
       
-      {/* Right Column - Console Panel */}
+      {/* Right Column - Info Panel (replacing console) */}
       <div className="col-span-5 bg-gray-50 border rounded-md p-4 shadow-sm">
+        <InfoPanel />
+      </div>
+
+      {/* Bottom Row - Console Panel (moved from right column) */}
+      <div className="col-span-12 bg-gray-50 border rounded-md p-4 shadow-sm h-48">
         <ConsolePanel />
       </div>
     </div>

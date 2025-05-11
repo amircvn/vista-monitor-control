@@ -11,10 +11,14 @@ interface BackendContextType {
   exposureTime: string;
   cameraGain: string;
   consoleMessages: string[];
+  infoMessages: string[];
   checklistItems: CheckItemStatus[];
   updateCheckItem: (id: string, checked: boolean) => void;
   handleItemTextClick: (id: string) => void;
   addConsoleMessage: (message: string) => void;
+  addInfoMessage: (message: string) => void;
+  selectAllCheckboxes: () => void;
+  clearAllCheckboxes: () => void;
 }
 
 const BackendContext = createContext<BackendContextType | undefined>(undefined);
@@ -44,6 +48,11 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     "Connected to backend services",
     "Ready for operation",
   ]);
+  const [infoMessages, setInfoMessages] = useState<string[]>([
+    "System information panel",
+    "Contains status updates and important notifications",
+    "Check here for system alerts"
+  ]);
   const [checklistItems, setChecklistItems] = useState<CheckItemStatus[]>([]);
 
   useEffect(() => {
@@ -68,8 +77,18 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         console.error("Error loading checklist data:", error);
         addConsoleMessage("Error loading checklist data");
       });
+    
+    // Simulate info messages coming from backend
+    const infoInterval = setInterval(() => {
+      if (Math.random() > 0.7) {
+        addInfoMessage(`System event at ${new Date().toLocaleTimeString()}`);
+      }
+    }, 8000);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearInterval(infoInterval);
+    };
   }, []);
 
   // Helper to flatten the nested checklist for tracking state
@@ -101,12 +120,28 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
     addConsoleMessage(`Item ${id} ${checked ? "checked" : "unchecked"}`);
   };
 
+  const selectAllCheckboxes = () => {
+    setChecklistItems((prev) => 
+      prev.map(item => ({ ...item, checked: true }))
+    );
+  };
+
+  const clearAllCheckboxes = () => {
+    setChecklistItems((prev) => 
+      prev.map(item => ({ ...item, checked: false }))
+    );
+  };
+
   const handleItemTextClick = (id: string) => {
     addConsoleMessage(`Clicked on item text: ${id}`);
   };
 
   const addConsoleMessage = (message: string) => {
     setConsoleMessages((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
+  };
+
+  const addInfoMessage = (message: string) => {
+    setInfoMessages((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
   };
 
   return (
@@ -118,10 +153,14 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
         exposureTime,
         cameraGain,
         consoleMessages,
+        infoMessages,
         checklistItems,
         updateCheckItem,
         handleItemTextClick,
         addConsoleMessage,
+        addInfoMessage,
+        selectAllCheckboxes,
+        clearAllCheckboxes,
       }}
     >
       {children}

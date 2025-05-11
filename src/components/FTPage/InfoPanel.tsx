@@ -3,21 +3,20 @@ import { useRef, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useBackend } from "@/contexts/BackendContext";
 
-const ConsolePanel = () => {
-  const { consoleMessages } = useBackend();
+const InfoPanel = () => {
+  const { infoMessages } = useBackend();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Scroll to bottom whenever messages change
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [consoleMessages]);
+  }, [infoMessages]);
 
   return (
     <div className="h-full flex flex-col">
-      <h2 className="text-lg font-semibold mb-2 text-gray-700">Console</h2>
-      <ScrollArea className="h-32 bg-[#1A1F2C] text-gray-200 p-3 rounded font-mono text-sm">
+      <h2 className="text-lg font-semibold mb-3 text-gray-700">Information</h2>
+      <ScrollArea className="flex-grow bg-white text-gray-700 p-3 rounded border">
         <div className="space-y-1">
-          {consoleMessages.map((message, index) => (
+          {infoMessages.map((message, index) => (
             <div key={index} className="whitespace-pre-wrap">{message}</div>
           ))}
           <div ref={bottomRef} />
@@ -27,4 +26,4 @@ const ConsolePanel = () => {
   );
 };
 
-export default ConsolePanel;
+export default InfoPanel;
