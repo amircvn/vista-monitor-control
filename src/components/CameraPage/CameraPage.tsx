@@ -14,6 +14,7 @@ const CameraPage = () => {
   const [exposureValue, setExposureValue] = useState(exposureTime);
   const [gainValue, setGainValue] = useState(cameraGain);
   const [isStreamActive, setIsStreamActive] = useState(false);
+  const [ipAddress, setIpAddress] = useState("192.168.0.10");
   
   const handleExposureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExposureValue(e.target.value);
@@ -25,11 +26,16 @@ const CameraPage = () => {
     addConsoleMessage(`Camera gain updated: ${e.target.value}`);
   };
 
+  const handleIpAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIpAddress(e.target.value);
+    addConsoleMessage(`Camera IP address updated: ${e.target.value}`);
+  };
+
   const handleStartStream = () => {
     setIsStreamActive(true);
-    addConsoleMessage("Camera stream started");
+    addConsoleMessage(`Camera stream started at IP: ${ipAddress}`);
     // Send exposure and gain data to backend
-    addConsoleMessage(`Sending to backend - Exposure: ${exposureValue}, Gain: ${gainValue}`);
+    addConsoleMessage(`Sending to backend - IP: ${ipAddress}, Exposure: ${exposureValue}, Gain: ${gainValue}`);
   };
 
   const handleStopStream = () => {
@@ -38,10 +44,10 @@ const CameraPage = () => {
   };
 
   const handleTestConnection = () => {
-    addConsoleMessage("Testing camera connection...");
+    addConsoleMessage(`Testing camera connection to ${ipAddress}...`);
     // Simulate connection test
     setTimeout(() => {
-      addConsoleMessage("Camera connection OK");
+      addConsoleMessage(`Camera connection to ${ipAddress} OK`);
     }, 1000);
   };
 
@@ -60,6 +66,15 @@ const CameraPage = () => {
               <div>
                 <Label htmlFor="output" className="text-xs text-gray-600 mb-1 block">Output folder</Label>
                 <Input id="output" disabled value="########" className="w-full bg-gray-100" />
+              </div>
+              <div>
+                <Label htmlFor="ipAddress" className="text-xs text-gray-600 mb-1 block">Camera IP</Label>
+                <Input 
+                  id="ipAddress" 
+                  value={ipAddress} 
+                  onChange={handleIpAddressChange}
+                  className="w-full" 
+                />
               </div>
               <div>
                 <Label htmlFor="exposure" className="text-xs text-gray-600 mb-1 block">Exposure time</Label>
@@ -113,7 +128,7 @@ const CameraPage = () => {
         {/* Middle/Right - WebRTC Viewer */}
         <div className="col-span-6">
           <div className="bg-gray-50 border rounded-md p-4 shadow-sm h-full">
-            <WebRTCViewer isActive={isStreamActive} />
+            <WebRTCViewer isActive={isStreamActive} ipAddress={ipAddress} />
           </div>
         </div>
         

@@ -4,24 +4,25 @@ import { useBackend } from "@/contexts/BackendContext";
 
 interface WebRTCViewerProps {
   isActive: boolean;
+  ipAddress: string;
 }
 
-const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
+const WebRTCViewer = ({ isActive, ipAddress }: WebRTCViewerProps) => {
   const { addConsoleMessage } = useBackend();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (isActive) {
-      let stream: MediaStream | null = null;
+    let stream: MediaStream | null = null;
 
-      const startWebRTC = async () => {
+    const startWebRTC = async () => {
+      if (isActive) {
         try {
-          addConsoleMessage("Connecting to WebRTC stream at 192.168.0.10...");
+          addConsoleMessage(`Connecting to WebRTC stream at ${ipAddress}...`);
           
           // In a real application, you would use WebRTC to connect to the IP
           // For this demo, we're simulating with the user's camera
-          // In production, replace this with actual WebRTC connection code to 192.168.0.10
+          // In production, replace this with actual WebRTC connection code to the specified IP
           stream = await navigator.mediaDevices.getUserMedia({
             video: true,
             audio: false,
@@ -29,24 +30,31 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
           
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
-            addConsoleMessage("WebRTC stream connected to 192.168.0.10");
+            addConsoleMessage(`WebRTC stream connected to ${ipAddress}`);
           }
         } catch (err) {
-          setError("Failed to connect to camera at 192.168.0.10: " + (err instanceof Error ? err.message : String(err)));
-          addConsoleMessage("WebRTC connection error: " + (err instanceof Error ? err.message : String(err)));
+          setError(`Failed to connect to camera at ${ipAddress}: ` + (err instanceof Error ? err.message : String(err)));
+          addConsoleMessage(`WebRTC connection error: ` + (err instanceof Error ? err.message : String(err)));
         }
-      };
-
-      startWebRTC();
-
-      return () => {
+      } else {
+        // Stop the stream if it exists
         if (stream) {
           stream.getTracks().forEach(track => track.stop());
-          addConsoleMessage("WebRTC stream disconnected from 192.168.0.10");
+          addConsoleMessage(`WebRTC stream disconnected from ${ipAddress}`);
+          setError(null);
         }
-      };
-    }
-  }, [isActive, addConsoleMessage]);
+      }
+    };
+
+    startWebRTC();
+
+    return () => {
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        addConsoleMessage(`WebRTC stream disconnected from ${ipAddress}`);
+      }
+    };
+  }, [isActive, ipAddress, addConsoleMessage]);
 
   return (
     <div className="rounded-lg overflow-hidden border border-gray-300 h-full flex items-center justify-center bg-gray-900">
@@ -68,7 +76,7 @@ const WebRTCViewer = ({ isActive }: WebRTCViewerProps) => {
       ) : (
         <div className="text-gray-400 text-center">
           <p className="text-lg font-medium">Live video feed</p>
-          <p className="text-sm">192.168.0.10</p>
+          <p className="text-sm">{ipAddress}</p>
         </div>
       )}
     </div>
