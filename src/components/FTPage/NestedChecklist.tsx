@@ -15,7 +15,7 @@ const NestedChecklist = () => {
   const [items, setItems] = useState<ChecklistItem[]>([]);
 
   useEffect(() => {
-    fetch("/src/data/checklistData.json")
+    fetch("http://localhost:5000/api/checklist")
       .then((response) => response.json())
       .then((data: ChecklistItem[]) => {
         setItems(data);

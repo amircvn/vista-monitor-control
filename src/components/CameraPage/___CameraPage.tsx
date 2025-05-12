@@ -3,8 +3,7 @@ import { useBackend } from "@/contexts/BackendContext";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-//import WebRTCViewer from "./WebRTCViewer";
-import RTSPViewer from "./RTSPViewer"; // If you renamed the file, update accordingly
+import WebRTCViewer from "./WebRTCViewer";
 import { useState } from "react";
 import { PlayCircle, StopCircle } from "lucide-react";
 import ConsolePanel from "../FTPage/ConsolePanel";
@@ -15,7 +14,7 @@ const CameraPage = () => {
   const [exposureValue, setExposureValue] = useState(exposureTime);
   const [gainValue, setGainValue] = useState(cameraGain);
   const [isStreamActive, setIsStreamActive] = useState(false);
-  const [ipAddress, setIpAddress] = useState("192.168.1.21");
+  const [ipAddress, setIpAddress] = useState("192.168.0.10");
   
   const handleExposureChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setExposureValue(e.target.value);
@@ -32,66 +31,16 @@ const CameraPage = () => {
     addConsoleMessage(`Camera IP address updated: ${e.target.value}`);
   };
 
-  const handleStartStream = async () => {
+  const handleStartStream = () => {
     setIsStreamActive(true);
     addConsoleMessage(`Camera stream started at IP: ${ipAddress}`);
-  
-    const payload = {
-      ip: ipAddress,
-      exposure: exposureValue,
-      gain: gainValue,
-    };
-  
-    try {
-      const res = await fetch("http://127.0.0.1:5000/start_stream", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-  
-      if (res.ok) {
-        const msg = await res.text();
-        addConsoleMessage(`Backend response: ${msg}`);
-      } else {
-        addConsoleMessage(`Backend error: ${res.status} ${res.statusText}`);
-      }
-    } catch (err) {
-      console.error(err);
-      addConsoleMessage(`Error sending to backend: ${err instanceof Error ? err.message : String(err)}`);
-    }
+    // Send exposure and gain data to backend
+    addConsoleMessage(`Sending to backend - IP: ${ipAddress}, Exposure: ${exposureValue}, Gain: ${gainValue}`);
   };
 
-  const handleStopStream = async () => {
+  const handleStopStream = () => {
     setIsStreamActive(false);
-    addConsoleMessage(`Stopping camera stream at IP: ${ipAddress}`);
-  
-    const payload = {
-      ip: ipAddress,
-      exposure: exposureValue,
-      gain: gainValue,
-    };
-  
-    try {
-      const res = await fetch("http://127.0.0.1:5000/stop_stream", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-  
-      if (res.ok) {
-        const msg = await res.text();
-        addConsoleMessage(`Backend response: ${msg}`);
-      } else {
-        addConsoleMessage(`Backend error: ${res.status} ${res.statusText}`);
-      }
-    } catch (err) {
-      console.error(err);
-      addConsoleMessage(`Error sending to backend: ${err instanceof Error ? err.message : String(err)}`);
-    }
+    addConsoleMessage("Camera stream stopped");
   };
 
   const handleTestConnection = () => {
@@ -179,7 +128,7 @@ const CameraPage = () => {
         {/* Middle/Right - WebRTC Viewer */}
         <div className="col-span-6">
           <div className="bg-gray-50 border rounded-md p-4 shadow-sm h-full">
-          <RTSPViewer isActive={isStreamActive} ipAddress={ipAddress} />
+            <WebRTCViewer isActive={isStreamActive} ipAddress={ipAddress} />
           </div>
         </div>
         

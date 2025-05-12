@@ -40,7 +40,7 @@ export const BackendProvider = ({ children }: { children: ReactNode }) => {
   ]);
   const [serialNumber, setSerialNumber] = useState("SN12345");
   const [outputFolder, setOutputFolder] = useState("/output/data");
-  const [exposureTime, setExposureTime] = useState("120ms");
+  const [exposureTime, setExposureTime] = useState("10000");
   const [cameraGain, setCameraGain] = useState("3.5");
   const [consoleMessages, setConsoleMessages] = useState<string[]>([
     "System initialized",
